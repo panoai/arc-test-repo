@@ -1,0 +1,16 @@
+name: Simple Self-Hosted Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  simple-test:
+    runs-on: [self-hosted]
+    
+    steps:
+    - name: Simple Hello
+      run: |
+        echo "Hello from any self-hosted runner!"
+        echo "Date: $(date)"
+        echo "Hostname: $(hostname)"
+        echo "This should work with any self-hosted runner"
