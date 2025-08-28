@@ -7,7 +7,7 @@ on:
 
 jobs:
   hello-world:
-    runs-on: [self-hosted, terraform, gke-cicd]
+    runs-on: [self-hosted, terraform-runners]
     
     steps:
     - name: Say Hello
