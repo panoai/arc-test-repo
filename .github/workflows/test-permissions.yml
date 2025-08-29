@@ -1,0 +1,81 @@
+name: Test Runner Permissions
+
+on:
+  workflow_dispatch:
+    inputs:
+      test_name:
+        description: 'Name of the test'
+        required: false
+        default: 'permission-test'
+
+jobs:
+  test-permissions:
+    runs-on: repo-test-runners
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Test basic directory access
+      run: |
+        echo "Testing basic directory permissions..."
+        whoami
+        id
+        pwd
+        ls -la /home/runner/
+        
+    - name: Test _work directory permissions
+      run: |
+        echo "Testing _work directory permissions..."
+        ls -la /home/runner/_work/ || echo "_work directory not found or not accessible"
+        mkdir -p /home/runner/_work/test-dir || echo "Failed to create test-dir"
+        touch /home/runner/_work/test-file || echo "Failed to create test-file"
+        echo "test content" > /home/runner/_work/test-file || echo "Failed to write to test-file"
+        
+    - name: Test _tool directory creation
+      run: |
+        echo "Testing _tool directory creation..."
+        mkdir -p /home/runner/_work/_tool || echo "Failed to create _tool directory"
+        ls -la /home/runner/_work/_tool || echo "_tool directory not accessible"
+        touch /home/runner/_work/_tool/test-tool-file || echo "Failed to create file in _tool directory"
+        
+    - name: Test Node.js setup (common permission issue trigger)
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        
+    - name: Test Python setup (another common trigger)
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.9'
+        
+    - name: Test directory permissions after tool setup
+      run: |
+        echo "Testing permissions after tool setup..."
+        ls -la /home/runner/_work/_tool/ || echo "_tool directory still not accessible"
+        find /home/runner/_work/_tool -type f -exec ls -la {} \; || echo "No files found in _tool or permission denied"
+        
+    - name: Test file creation in various directories
+      run: |
+        echo "Testing file creation in various directories..."
+        
+        # Test current working directory
+        touch ./test-file-cwd && echo "✓ Can create file in current working directory" || echo "✗ Cannot create file in current working directory"
+        
+        # Test runner home
+        touch /home/runner/test-file-home && echo "✓ Can create file in runner home" || echo "✗ Cannot create file in runner home"
+        
+        # Test _work subdirectories
+        mkdir -p /home/runner/_work/subdir
+        touch /home/runner/_work/subdir/test-file && echo "✓ Can create file in _work subdir" || echo "✗ Cannot create file in _work subdir"
+        
+    - name: Final permissions summary
+      run: |
+        echo "=== Final Permissions Summary ==="
+        echo "Current user: $(whoami)"
+        echo "Current groups: $(groups)"
+        echo "Current directory: $(pwd)"
+        echo "Directory permissions:"
+        ls -la /home/runner/
+        echo ""
+        echo "_work directory contents:"
+        ls -laR /home/runner/_work/ || echo "Cannot access _work directory contents"
