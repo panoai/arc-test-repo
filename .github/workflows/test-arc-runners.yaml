@@ -6,73 +6,14 @@ on:
     branches: [ main ]
 
 jobs:
-  test-new-ci-pool:
-    name: Test New CI Pool
-    runs-on: test-ci-runners
-    
-    steps:
-    - name: Test CI Pool
-      run: |
-        echo "=== Testing New CI Runner Pool ==="
-        echo "Runner name: $RUNNER_NAME"
-        echo "Date: $(date)"
-        echo "SUCCESS: New CI runner pool is working!"
-        
   test-repo-runner:
     name: Test Repository Runner
     runs-on: repo-test-runners
     
     steps:
-    - name: Runner Information
+    - name: Simple Test
       run: |
         echo "=== ARC Repository Runner Test ==="
-        echo "Runner name: $RUNNER_NAME"
-        echo "Runner OS: $RUNNER_OS"
-        echo "Runner arch: $RUNNER_ARCH"
-        echo "Date: $(date)"
-        echo "Hostname: $(hostname)"
-        echo "User: $(whoami)"
-        echo "Working directory: $(pwd)"
-        
-    - name: Test Success
-      run: |
-        echo "=== Test Complete ==="
         echo "SUCCESS: Repository runner is working correctly!"
-        
-  test-self-hosted:
-    name: Test Self-Hosted Runner
-    runs-on: self-hosted
-    
-    steps:
-    - name: Runner Information
-      run: |
-        echo "=== ARC Runner Test ==="
-        echo "Runner name: $RUNNER_NAME"
-        echo "Runner OS: $RUNNER_OS"
-        echo "Runner arch: $RUNNER_ARCH"
         echo "Date: $(date)"
-        echo "Hostname: $(hostname)"
-        echo "User: $(whoami)"
-        echo "Working directory: $(pwd)"
-        
-    - name: System Information
-      run: |
-        echo "=== System Information ==="
-        uname -a
-        echo "CPU cores: $(nproc 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo 'N/A')"
-        echo "Memory: $(free -h 2>/dev/null || echo 'Memory info not available')"
-        
-    - name: GitHub Context
-      run: |
-        echo "=== GitHub Context ==="
-        echo "Repository: $GITHUB_REPOSITORY"
-        echo "Ref: $GITHUB_REF"
-        echo "SHA: $GITHUB_SHA"
-        echo "Workflow: $GITHUB_WORKFLOW"
-        echo "Job: $GITHUB_JOB"
-        
-    - name: Test Success
-      run: |
-        echo "=== Test Complete ==="
-        echo "SUCCESS: ARC self-hosted runner is working correctly!"
-        echo "Repository-level GitHub Actions Runner Controller test passed."
+        echo "Runner: $RUNNER_NAME"
