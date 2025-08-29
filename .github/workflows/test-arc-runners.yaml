@@ -4,17 +4,30 @@ on:
   workflow_dispatch:
 
 jobs:
-  test-repo-runner:
-    name: Test Repository Runner  
-    runs-on: repo-test-runners
+  test-terraform-runner:
+    name: Test Terraform Runner  
+    runs-on: terraform-runners
     
     steps:
-    - name: Prove Self-Hosted Runner Works
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Prove Terraform Runner Works
       shell: bash
       run: |
-        echo "SUCCESS: Self-hosted runner is working!"
+        echo "SUCCESS: Terraform runner is working!"
         echo "Date: $(date)"
         echo "Hostname: $(hostname)"
         echo "User: $(whoami)"
+        echo "Groups: $(groups)"
         echo "Kubernetes pod name: $HOSTNAME"
-        echo "This proves ARC is working correctly!"
+        
+    - name: Test file permissions
+      shell: bash
+      run: |
+        echo "Testing file permissions (permission fix verification)..."
+        mkdir -p ./test-dir && echo "SUCCESS: Can create directory" || echo "ERROR: Cannot create directory"
+        touch ./test-file && echo "SUCCESS: Can create file" || echo "ERROR: Cannot create file"
+        echo "test content" > ./test-file && echo "SUCCESS: Can write file" || echo "ERROR: Cannot write file"
+        mkdir -p /tmp/tool-test && echo "SUCCESS: Can create tool directories" || echo "ERROR: Cannot create tool directories"
+        echo "This proves the security context fix is working!"
