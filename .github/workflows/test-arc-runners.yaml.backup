@@ -1,0 +1,20 @@
+name: Test ARC Runners
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-repo-runner:
+    name: Test Repository Runner  
+    runs-on: repo-test-runners
+    
+    steps:
+    - name: Prove Self-Hosted Runner Works
+      shell: bash
+      run: |
+        echo "SUCCESS: Self-hosted runner is working!"
+        echo "Date: $(date)"
+        echo "Hostname: $(hostname)"
+        echo "User: $(whoami)"
+        echo "Kubernetes pod name: $HOSTNAME"
+        echo "This proves ARC is working correctly!"

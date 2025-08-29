@@ -1,0 +1,16 @@
+name: Debug Runners
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-any-runner:
+    name: Test Any Available Runner
+    runs-on: terraform-runners
+    
+    steps:
+    - name: Debug runner info
+      run: |
+        echo "Runner hostname: $(hostname)"
+        echo "Runner labels should include: terraform-runners"
+        echo "This job should work if the scale set name matching works"
