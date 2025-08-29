@@ -6,7 +6,7 @@ on:
 jobs:
   test-terraform-runner:
     name: Test Terraform Runner  
-    runs-on: terraform-runners
+    runs-on: self-hosted
     
     steps:
     - name: Checkout repository
