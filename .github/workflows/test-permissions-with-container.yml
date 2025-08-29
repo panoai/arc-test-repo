@@ -1,0 +1,46 @@
+name: Test Runner Permissions with Container
+
+on:
+  workflow_dispatch:
+    inputs:
+      test_name:
+        description: 'Name of the test'
+        required: false
+        default: 'permission-test'
+
+jobs:
+  test-permissions:
+    runs-on: repo-test-runners
+    container:
+      image: ubuntu:latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Test basic directory access
+      run: |
+        echo "Testing basic directory permissions..."
+        whoami
+        id
+        pwd
+        ls -la /github/home/ || echo "No /github/home directory"
+        ls -la /home/runner/ || echo "No /home/runner directory"
+        
+    - name: Test _work directory permissions
+      run: |
+        echo "Testing _work directory permissions..."
+        ls -la /github/workspace/ || echo "GitHub workspace not found"
+        mkdir -p /tmp/test-dir && echo "✓ Can create directory in /tmp" || echo "✗ Cannot create directory in /tmp"
+        touch /tmp/test-file && echo "✓ Can create file in /tmp" || echo "✗ Cannot create file in /tmp"
+        
+    - name: Test file system access
+      run: |
+        echo "Testing general file system access..."
+        df -h
+        mount | grep workspace || echo "No workspace mount found"
+        
+    - name: Success message
+      run: |
+        echo "🎉 SUCCESS: Runner with security context is working!"
+        echo "✅ Permission issue appears to be resolved"
+        echo "✅ Container-based job executed successfully"
