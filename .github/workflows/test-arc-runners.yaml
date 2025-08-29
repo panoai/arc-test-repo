@@ -17,3 +17,19 @@ jobs:
         echo "SUCCESS: Repository runner is working correctly!"
         echo "Date: $(date)"
         echo "Runner: $RUNNER_NAME"
+        echo "Hostname: $(hostname)"
+        echo "Working directory: $(pwd)"
+        echo "User: $(whoami)"
+        
+    - name: Test Basic Commands
+      run: |
+        echo "=== Testing Basic Commands ==="
+        uname -a
+        ls -la
+        echo "PATH: $PATH"
+        
+    - name: Success Message
+      run: |
+        echo "=== TEST PASSED ==="
+        echo "Self-hosted runner executed successfully!"
+        echo "ARC (Actions Runner Controller) is working correctly!"
