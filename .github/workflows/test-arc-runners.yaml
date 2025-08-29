@@ -6,6 +6,18 @@ on:
     branches: [ main ]
 
 jobs:
+  test-new-ci-pool:
+    name: Test New CI Pool
+    runs-on: test-ci-runners
+    
+    steps:
+    - name: Test CI Pool
+      run: |
+        echo "=== Testing New CI Runner Pool ==="
+        echo "Runner name: $RUNNER_NAME"
+        echo "Date: $(date)"
+        echo "SUCCESS: New CI runner pool is working!"
+        
   test-repo-runner:
     name: Test Repository Runner
     runs-on: repo-test-runners
