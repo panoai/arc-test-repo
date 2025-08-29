@@ -1,0 +1,32 @@
+name: Test Repository Runners
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-repo-runners:
+    runs-on: [self-hosted, repo-test-runners]
+    
+    steps:
+    - name: Hello from Repository ARC Runners
+      run: |
+        echo "SUCCESS: Hello from ARC repository-level runners!"
+        echo "Date: $(date)"
+        echo "Hostname: $(hostname)"
+        echo "Working directory: $(pwd)"
+        echo "User: $(whoami)"
+        echo "Runner labels: repo-test-runners"
+        
+    - name: Test Environment
+      run: |
+        echo "=== System Information ==="
+        uname -a
+        echo "CPU cores: $(nproc 2>/dev/null || echo 'N/A')"
+        echo "Memory: $(free -h 2>/dev/null | head -2 || echo 'Memory info not available')"
+        echo "Disk space: $(df -h / | tail -1 || echo 'Disk info not available')"
+        
+    - name: Test Complete
+      run: |
+        echo "🎉 ARC Repository-level test completed successfully!"
+        echo "✅ Repository runners are working correctly!"
+        echo "✅ GitHub Actions can successfully run on Kubernetes via ARC!"
