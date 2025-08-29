@@ -2,34 +2,19 @@ name: Test ARC Runners
 
 on:
   workflow_dispatch:
-  push:
-    branches: [ main ]
 
 jobs:
   test-repo-runner:
-    name: Test Repository Runner
+    name: Test Repository Runner  
     runs-on: repo-test-runners
     
     steps:
-    - name: Simple Test
+    - name: Prove Self-Hosted Runner Works
+      shell: bash
       run: |
-        echo "=== ARC Repository Runner Test ==="
-        echo "SUCCESS: Repository runner is working correctly!"
+        echo "SUCCESS: Self-hosted runner is working!"
         echo "Date: $(date)"
-        echo "Runner: $RUNNER_NAME"
         echo "Hostname: $(hostname)"
-        echo "Working directory: $(pwd)"
         echo "User: $(whoami)"
-        
-    - name: Test Basic Commands
-      run: |
-        echo "=== Testing Basic Commands ==="
-        uname -a
-        ls -la
-        echo "PATH: $PATH"
-        
-    - name: Success Message
-      run: |
-        echo "=== TEST PASSED ==="
-        echo "Self-hosted runner executed successfully!"
-        echo "ARC (Actions Runner Controller) is working correctly!"
+        echo "Kubernetes pod name: $HOSTNAME"
+        echo "This proves ARC is working correctly!"
