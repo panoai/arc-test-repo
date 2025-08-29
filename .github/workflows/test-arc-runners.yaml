@@ -6,6 +6,27 @@ on:
     branches: [ main ]
 
 jobs:
+  test-repo-runner:
+    name: Test Repository Runner
+    runs-on: repo-test-runners
+    
+    steps:
+    - name: Runner Information
+      run: |
+        echo "=== ARC Repository Runner Test ==="
+        echo "Runner name: $RUNNER_NAME"
+        echo "Runner OS: $RUNNER_OS"
+        echo "Runner arch: $RUNNER_ARCH"
+        echo "Date: $(date)"
+        echo "Hostname: $(hostname)"
+        echo "User: $(whoami)"
+        echo "Working directory: $(pwd)"
+        
+    - name: Test Success
+      run: |
+        echo "=== Test Complete ==="
+        echo "SUCCESS: Repository runner is working correctly!"
+        
   test-self-hosted:
     name: Test Self-Hosted Runner
     runs-on: self-hosted
