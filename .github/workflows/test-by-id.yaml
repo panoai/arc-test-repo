@@ -1,0 +1,16 @@
+name: Test by Runner ID
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test-runner-id:
+    runs-on: [self-hosted, linux, x64]
+    timeout-minutes: 2
+    steps:
+    - name: Test runner
+      run: |
+        echo "SUCCESS! Runner is working!"
+        echo "Runner hostname: $(hostname)"
+        echo "Runner ID should be: 1999"
+        env | grep RUNNER || true
