@@ -1,0 +1,31 @@
+name: Fresh Start Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Test Fresh Terraform Runner
+    runs-on: terraform-runners
+    timeout-minutes: 5
+    steps:
+    - name: Test basic functionality
+      run: |
+        echo "SUCCESS! Fresh terraform-runners setup is working!"
+        echo "Date: $(date)"
+        echo "Hostname: $(hostname)"
+        echo "User: $(whoami)"
+        echo "Groups: $(groups)"
+        
+    - name: Test permission fix
+      run: |
+        echo "Testing permission fix..."
+        mkdir -p /tmp/tool-test
+        touch /tmp/tool-test/test-file
+        echo "Permission fix working - can create directories and files"
+        
+    - name: Test environment
+      run: |
+        echo "Runner environment:"
+        env | grep RUNNER || echo "No RUNNER env vars"
+        df -h | head -5
