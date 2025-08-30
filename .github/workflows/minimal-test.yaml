@@ -1,0 +1,12 @@
+name: Minimal Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  minimal:
+    name: Minimal Test
+    runs-on: self-hosted
+    timeout-minutes: 1
+    steps:
+    - run: echo "SUCCESS - Terraform runner is working!"
